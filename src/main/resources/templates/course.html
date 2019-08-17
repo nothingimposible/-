@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <!-- popper.min.js 用于弹窗、提示、下拉菜单 -->
+    <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+    <!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <title>用户登录</title>
+</head>
+
+<style>
+    .top {
+        display: flex;
+        background: #f1f3f5;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .top a {
+        text-decoration: none;
+        font-size: 15px;
+        line-height: 2;
+        padding: 10px;
+        margin: 10px    ;
+        color: black;
+    }
+
+    .flex-evenly{
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+    .flex-right{
+        display: flex;
+        justify-content: end;
+        align-items: center;
+    }
+    .flex-center{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .flex-left {
+        display: flex;
+        justify-content: left;
+        align-items: center;
+    }
+    .flex-wrap{
+        flex-wrap: wrap;
+    }
+    .mianBody{
+        text-align: center;
+        background: #f7f7f7;
+        padding-bottom: 100px;
+        padding-top: 20px;
+    }
+    .mainBody>h1{
+        padding: 20px;
+    }
+    .classDiv{
+        width: 300px;
+        margin-top: 10px;
+    }
+    .classDiv a{
+        text-decoration: none;
+        color: black;
+    }
+    .classDiv a:hover{
+        color: #4cae4c;
+    }
+    .classDiv img{
+        width: 100%;
+    }   .dropbtn {
+            background-color: #f1f3f5;
+            color: black;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+    /* 容器 <div> - 需要定位下拉内容 */
+    .dropdown {
+        position: relative;
+        display: inline-block;
+        z-index: 1000;
+    }
+
+    /* 下拉内容 (默认隐藏) */
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    }
+
+    /* 下拉菜单的链接 */
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    /* 鼠标移上去后修改下拉菜单链接颜色 */
+    .dropdown-content a:hover {
+        color: white;
+        background-color: #f1f1f1
+    }
+
+    /* 在鼠标移上去后显示下拉菜单 */
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    /* 当下拉内容显示后修改下拉按钮的背景颜色 */
+    .dropdown:hover .dropbtn {
+        background-color: #3e8e41;
+    }
+    .center{
+        padding-top: 10px;
+        height: 700px;
+    }
+    .center .center_left{
+        width: 15%;
+        background: white;
+        height: 500px;
+        float: left;
+    }
+    .firstcatalog{
+        color: white;
+        background: #E74C3C;
+        font-size: 15px;
+        height: 30px;
+        line-height: 30px;
+        display: block;
+    }
+    .center .center_left a{
+        display: block;
+        text-decoration: none;
+        margin-left: 20px;
+        margin-top: 5px;
+    }
+    .center .center_rigth{
+        float: left;
+        width: 85%;
+        height: 650px;
+        padding: 20px;
+    }
+    .search_text{
+        width: 400px;
+        height: 30px;
+        border-radius: 5px;
+        border: 1px solid black;
+        margin-left: 25%;
+        padding-left: 5px;
+    }
+    .search_submit{
+        height: 30px;
+        width: 60px;
+        border-radius: 5px;
+        background: #ec971f;
+        border-style: none;
+        color: white;
+    }
+    .videolist{
+
+    }
+    .onevideo{
+        height: 300px;
+        padding: 20px;
+    }
+    .videolist a{
+        color: black;
+    }
+    .videolist a:hover{
+        text-decoration: none;
+    }
+    .onevideo img{
+        width: 230px;
+        height: 150px;
+    }
+    .onevideo a{
+        display: block;
+        border: 1px solid #d5d5d5;
+        padding: 10px;
+        width: 250px;
+        height: 240px;
+        background: white;
+    }
+    .foot{
+        background: #5e5e5e;
+        color: white;
+        padding-top: 50px;
+        padding-left: 10px;
+        height: 250px;
+    }
+</style>
+
+<body>
+<div class="container">
+    <div class="top">
+        <h1>德州扑克学堂</h1>
+        <div class="flex-right">
+            <a href="/course/main">网站首页</a>
+            <a href="/comic">动漫专区</a>
+            <a th:if="${session.privilege}==0" href="/course/courselist">课程</a>
+            <a th:if="${session.privilege}==1" href="/course/mycourse">管理课程</a>
+            <a href="/user/register">注册</a>
+            <a th:text="请登录" th:if="${#strings.isEmpty(session.user)}" href="/user/login"></a>
+
+            <div th:if="${not #strings.isEmpty(session.user)}" class="dropdown">
+                <button th:text="${session.user}+',你好！'" class="dropbtn"></button>
+                <div class="dropdown-content">
+                    <a href="/user/destroy">注销</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="center">
+       <div class="center_left">
+
+           <div th:each="first,FirstCourse:${fc}">
+               <a th:text="${first.getNAME()}" th:href="@{/course/searchfirstcourse(firstid=${first.getID()})}" class="firstcatalog"></a>
+               <a th:each="second,SecondCourse:${sc}" th:if="${second.getFIRSTID()} == ${first.getID()}" th:href="@{/course/searchsecondcourse(secondid=${second.getID()})}" th:text="${second.getNAME()}"></a>
+           </div>
+
+       </div>
+
+        <div class="center_rigth">
+            <div class="search">
+                <h3 style="text-align: center">检索条件</h3>
+                <form method="post" action="/course/searchcoursename">
+                    <input class="search_text" type="text" name="searchname">
+                    <input class="search_submit" type="submit" value="检索">
+                </form>
+            </div>
+            <div class="videolist">
+
+                <div th:each="cs,Course:${courses}" class="onevideo col-lg-4">
+                    <a th:href="@{/video/video(id=${cs.getId()})}">
+                        <p th:text="${cs.getCoursename()}"></p>
+                        <img th:src="${cs.getCourseimg()}">
+                        <h5 th:text="${cs.getCoursedesc()}"></h5>
+                        <p th:text="${cs.getCourseteacher()}+'|'+${cs.getCoursetype()}" style="color: #777777;margin-top: -7px"></p>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="foot">
+        <p>为您提供优质，便捷，安全，方便的服务</p>
+        <hr/>
+        <div style="float: left">
+            <img src="/coursefile/courseimg/gw.jpg">
+        </div>
+        <div style="float: left;margin-left: 30px">
+            <p>联系人：刘麻子</p>
+            <p>联系电话：18712345678</p>
+            <p>联系邮箱：24456865@qq.com</p>
+            <p>公司地址：德州扑克娱乐城</p>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

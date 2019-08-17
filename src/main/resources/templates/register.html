@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <!-- popper.min.js 用于弹窗、提示、下拉菜单 -->
+    <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+    <!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <title>用户注册</title>
+</head>
+
+<style>
+    .top {
+        display: flex;
+        background: #f1f3f5;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .top a {
+        text-decoration: none;
+        font-size: 15px;
+        line-height: 2;
+        padding: 10px;
+        margin: 10px    ;
+        color: black;
+    }
+
+    .flex-evenly{
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+    .flex-right{
+        display: flex;
+        justify-content: end;
+        align-items: center;
+    }
+    .flex-center{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .flex-left {
+        display: flex;
+        justify-content: left;
+        align-items: center;
+    }
+    .flex-wrap{
+        flex-wrap: wrap;
+    }
+    .mianBody{
+        text-align: center;
+        background: #f7f7f7;
+        padding-bottom: 100px;
+        padding-top: 20px;
+    }
+    .mainBody>h1{
+        padding: 20px;
+    }
+    .classDiv{
+        width: 300px;
+        margin-top: 10px;
+    }
+    .classDiv a{
+        text-decoration: none;
+        color: black;
+    }
+    .classDiv a:hover{
+        color: #4cae4c;
+    }
+    .classDiv img{
+        width: 100%;
+    }   .dropbtn {
+            background-color: #f1f3f5;
+            color: black;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+    /* 容器 <div> - 需要定位下拉内容 */
+    .dropdown {
+        position: relative;
+        display: inline-block;
+        z-index: 1000;
+    }
+
+    /* 下拉内容 (默认隐藏) */
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    }
+
+    /* 下拉菜单的链接 */
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    /* 鼠标移上去后修改下拉菜单链接颜色 */
+    .dropdown-content a:hover {
+        color: white;
+        background-color: #f1f1f1
+    }
+
+    /* 在鼠标移上去后显示下拉菜单 */
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    /* 当下拉内容显示后修改下拉按钮的背景颜色 */
+    .dropdown:hover .dropbtn {
+        background-color: #3e8e41;
+    }
+    .center{
+        padding-top: 50px;
+        background: #f7f7f7;
+        height: 500px;
+    }
+    .center .login{
+        padding-left: 35%;
+    }
+    .center .login input{
+        width: 300px;
+        height: 30px;
+        border: 1px solid cadetblue;
+        margin-top: 10px;
+        padding-left: 10px;
+    }
+    .center .login span{
+
+    }
+    .foot{
+        background: #5e5e5e;
+        color: white;
+        padding-top: 50px;
+        padding-left: 10px;
+        height: 250px;
+    }
+</style>
+
+<body>
+<div class="container">
+    <div class="top">
+        <h1>德州扑克学堂</h1>
+        <div class="flex-right">
+            <a href="/course/main">网站首页</a>
+            <a href="/comic">动漫专区</a>
+            <a th:if="${session.privilege}==0" href="/course/courselist">课程</a>
+            <a th:if="${session.privilege}==1" href="/course/mycourse">管理课程</a>
+            <a href="/user/register">注册</a>
+            <a th:text="请登录" th:if="${#strings.isEmpty(session.user)}" href="/user/login"></a>
+
+            <div th:if="${not #strings.isEmpty(session.user)}" class="dropdown">
+                <button th:text="${session.user}+',你好！'" class="dropbtn"></button>
+                <div class="dropdown-content">
+                    <a href="/user/destroy">注销</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="center">
+        <div>
+            <h3 style="text-align: center">用户注册</h3>
+        </div>
+        <div class="login">
+            <form method="post" action="/user/register">
+                <button type="button" class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-user"></span>
+                </button>
+                <input type="text" style="width: 147px" name="firstname" placeholder="姓">
+                <input type="text" style="width: 147px" name="lastname" placeholder="名"><br>
+                <button type="button" class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-home"></span>
+                </button>
+                <input type="text" name="ID" placeholder="输入用户名"><br>
+
+                <button type="button" class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-envelope"></span>
+                </button>
+                <input type="text" name="mail" placeholder="邮箱"><br>
+                <button type="button" class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-lock"></span>
+                </button>
+                <input type="text" name="password" placeholder="密码"><br>
+                <button type="button" class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-lock"></span>
+                </button>
+                <input type="text" placeholder="确认密码"><br>
+                <button type="button" class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-wrench"></span>
+                </button>
+                <input style="width: 5px;height: 5px" type="radio" value=1 name="privilege" onclick="onclick"><span>系统管理员</span>
+                <input style="width: 5px;height: 5px;margin-left: 20px" type="radio" value=0 name="privilege"><span>普通用户</span>
+                <br>
+                <input type="submit" style="background: #4cae4c;width: 340px" value="提交注册">
+            </form>
+        </div>
+    </div>
+
+    <div class="foot">
+        <p>为您提供优质，便捷，安全，方便的服务</p>
+        <hr/>
+        <div style="float: left">
+            <img src="/coursefile/courseimg/gw.jpg">
+        </div>
+        <div style="float: left;margin-left: 30px">
+            <p>联系人：刘麻子</p>
+            <p>联系电话：18712345678</p>
+            <p>联系邮箱：24456865@qq.com</p>
+            <p>公司地址：德州扑克娱乐城</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
